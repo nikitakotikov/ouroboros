@@ -182,6 +182,7 @@ All other messages are sent directly to the LLM.
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 3.3.2 | 2026-05-20 | Fix missing httpx dependency causing review.py import error |
 | 3.3.1 | 2026-05-20 | Initial release, version baseline established |
 
 ---
