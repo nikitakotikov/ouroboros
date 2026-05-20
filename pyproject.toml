@@ -1,6 +1,6 @@
 [project]
 name = "ouroboros"
-version = "3.3.0"
+version = "3.3.1"
 description = "Self-creating AI agent with constitution, background consciousness, and persistent identity"
 readme = "README.md"
 license = {text = "MIT"}
@@ -11,7 +11,7 @@ authors = [
 keywords = ["ai-agent", "self-modifying", "autonomous", "llm", "cloudru", "glm"]
 classifiers = [
     "Development Status :: 4 - Beta",
-    "License :: OSI Approved :: MIT License",
+    "License :: OSI Approved :: MIT",
     "Operating System :: MacOS",
     "Operating System :: POSIX :: Linux",
     "Programming Language :: Python :: 3",
@@ -42,8 +42,8 @@ all = ["playwright", "playwright-stealth", "llama-cpp-python", "huggingface_hub"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-python_files = ["test_*.py"]
-python_functions = ["test_*"]
+python_files = ["test_*.py"
+]python_functions = ["test_*"]
 addopts = "-q --tb=short"
 
 [tool.ruff]
