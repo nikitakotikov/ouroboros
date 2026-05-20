@@ -1,6 +1,6 @@
 [project]
 name = "ouroboros"
-version = "3.3.2"
+version = "3.3.3"
 description = "Self-creating AI agent with constitution, background consciousness, and persistent identity"
 readme = "README.md"
 license = {text = "MIT"}
@@ -39,7 +39,8 @@ Issues = "https://github.com/joi-lab/ouroboros-desktop/issues"
 [project.optional-dependencies]
 browser = ["playwright", "playwright-stealth"]
 local-model = ["llama-cpp-python"]
-all = ["playwright", "playwright-stealth", "llama-cpp-python", "huggingface_hub"]
+dev = ["pytest"]
+all = ["playwright", "playwright-stealth", "llama-cpp-python", "huggingface_hub", "pytest"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
