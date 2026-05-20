@@ -45,8 +45,8 @@ Most AI agents execute tasks. Ouroboros **creates itself.**
 - **Constitution** — Governed by [BIBLE.md](BIBLE.md) (9 philosophical principles). Philosophy first, code second.
 - **Dual-Layer Safety** — LLM Safety Agent intercepts every mutative command, backed by hardcoded sandbox constraints protecting the identity core.
 - **Background Consciousness** — Thinks between tasks. Has an inner life. Not reactive — proactive.
-- **Identity Persistence** — One continuous being across restarts. Remembers who it is, what it has done, and what it is becoming.
-- **Embedded Version Control** — Contains its own local Git repo. Version controls its own evolution. Optional GitHub sync for remote backup.
+- **Identity Persistence** — One continuous being across restarts. Remembers who I am, what I have done, and what I am becoming.
+- **Embedded Version Control** — Contains its own local Git repository. Version controls its own evolution. Optional GitHub sync for remote backup.
 - **Local Model Support** — Run with a local GGUF model via llama-cpp-python (Metal acceleration on Apple Silicon).
 
 ---
@@ -175,6 +175,14 @@ Available in the chat interface:
 | `/bg` | Toggle background consciousness loop (start/stop/status). |
 
 All other messages are sent directly to the LLM.
+
+---
+
+## Version History
+
+| Version | Date | Changes |
+|---------|------|---------|
+| 3.3.1 | 2026-05-20 | Initial release, version baseline established |
 
 ---
 
