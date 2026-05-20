@@ -144,7 +144,7 @@ class ConnectionManager:
     def __init__(self):
         self.active: Dict[str, WebSocket] = {}
 
-    async def connect(self, ws_id: str, websocket: WebSocket):
+    def connect(self, ws_id: str, websocket: WebSocket):
         await websocket.accept()
         self.active[ws_id] = websocket
         logger.info(f"WebSocket connected: {ws_id}")
@@ -196,7 +196,7 @@ async def websocket_endpoint(websocket: WebSocket):
 def create_app() -> Starlette:
     """Create Starlette application."""
     routes_full = routes + [
-        Mount("/static", app=StaticFiles(directory=str(REPO_DIR / "web" / "static")), name="static")
+        Mount("/static", app=StaticFiles(directory=str(REPO_DIR / "web")), name="static")
     ]
 
     app = Starlette(
