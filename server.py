@@ -196,7 +196,7 @@ async def websocket_endpoint(websocket: WebSocket):
 def create_app() -> Starlette:
     """Create Starlette application."""
     routes_full = routes + [
-        Mount("/static", app=StaticFiles(directory=str(REPO_DIR / "web"/"static")), name="static")
+        Mount("/static", app=StaticFiles(directory=str(REPO_DIR / "web" / "static")), name="static")
     ]
 
     app = Starlette(
