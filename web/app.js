@@ -1,42 +1,65 @@
-input.addEventListener('input', () => {
-        input.style.height = 'auto';
-        input.style.height = Math.min(input.scrollHeight, 120) + 'px';
-    });
+async function sendMessage() {
+    const chatInput = document.getElementById('chat-input');
+    const message = chatInput.value.trim();
+    if (!message && !selectedFile) return;
 
-    // File upload functionality
-    const uploadBtn = document.getElementById('chat-upload');
-    const fileInput = document.getElementById('chat-file-input');
+    setTyping(true);
+    chatInput.value = '';
 
-    uploadBtn.addEventListener('click', () => {
-        fileInput.click();
-    });
+    if (message) {
+        addMessage(message, 'user');
+        await fetch('/api/chat', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({message})
+        });
+    }
 
-    fileInput.addEventListener('change', async (e) => {
-        const files = Array.from(e.target.files || []);
-        if (files.length === 0) return;
+    if (selectedFile) {
+        const formData = new FormData();
+        formData.append('file', selectedFile);
+        
+        // Show upload progress
+        const progressMsg = addMessage(`Uploading ${selectedFile.name}...`, 'assistant', false);
+        const progressBar = document.createElement('div');
+        progressBar.className = 'upload-progress';
+        progressBar.style.width = '0%';
+        progressMsg.querySelector('.message-content').appendChild(progressBar);
 
-        for (const file of files) {
-            const formData = new FormData();
-            formData.append('file', file);
-
-            try {
-                const resp = await fetch('/api/file/upload', {
+        try {
+            const response = await fetch(`/api/file/upload`, {
+                method: 'POST',
+                body: formData
+            });
+            
+            if (response.ok) {
+                const result = await response.json();
+                progressBar.style.width = '100%';
+                progressBar.style.backgroundColor = '#10b981';
+                
+                // Follow up with an analysis request
+                await fetch('/api/chat', {
                     method: 'POST',
-                    body: formData
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({message: `I uploaded a file: ${result.path}. Please analyze it.`})
                 });
-                const result = await resp.json();
-                if (resp.ok && result.success) {
-                    addMessage(`📎 Uploaded: ${file.name}`, 'system');
-                } else {
-                    addMessage(`❌ Upload failed for ${file.name}: ${result.error || 'Unknown error'}`, 'system');
-                }
-            } catch (err) {
-                addMessage(`❌ Upload error for ${file.name}: ${err.message}`, 'system');
+                
+                // Update the message to show completion
+                setTimeout(() => {
+                    progressMsg.querySelector('.message-content').innerHTML = 
+                        `✅ File uploaded: ${result.path}<br>Starting analysis...`;
+                }, 500);
+            } else {
+                progressBar.style.backgroundColor = '#ef4444';
+                progressMsg.querySelector('.message-content').innerHTML = 
+                    `❌ Upload failed: ${response.statusText}`;
             }
+        } catch (error) {
+            progressMsg.querySelector('.message-content').innerHTML = 
+                `❌ Upload error: ${error.message}`;
+        } finally {
+            selectedFile = null;
+            document.getElementById('chat-file-input').value = '';
         }
-
-        fileInput.value = '';
-    });
-
-    // Typing indicator element (persistent, shown/hidden as needed)
-    const typingEl = document.createElement('div');
+    }
+}
